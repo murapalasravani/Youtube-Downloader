@@ -1,0 +1,29 @@
+'''
+YouTube Downloader using python pytube libray and tkinter libray
+'''
+from tkinter import *		#importing tkinter
+from pytube import YouTube			#importing pytube
+obj=Tk()
+#obj.configure(bg='#faebd7')	#setting background color of window
+obj.geometry('650x450')		#width and height of the window
+obj.title('Youtube Video Downloader')
+l=Label(obj,text='Youtube Video Downloader!',font=('ComicSansMS 26 bold'))
+l.grid(row=5,column=15,padx=25,pady=25)
+link=StringVar()	#to store the link as string variable
+
+l1=Label(obj,text='Paste link here',font=('arial 15 bold'))
+l1.grid(row=9,column=15,padx=25,pady=15)
+e=Entry(obj,width=100,textvariable=link)
+e.focus()
+e.grid(row=10,column=15,padx=25,pady=15,ipady=3)	#retrieve the current text variable to entry widget
+def downloader():
+	try:
+		url=YouTube(str(link.get()))
+		l22=Label(obj,text='Downloading...',font=('arial 8 bold')).grid(row=12,column=15,padx=25,pady=25)
+		video=url.streams.get_highest_resolution()	#video is download with it's highest resolution
+		video.download()
+		l2=Label(obj,text='DOWNLOADED',font=('arial 15 bold')).grid(row=15,column=15,padx=25,pady=25)
+	except UrlError:
+		l23=Label(obj,text='url error',font=('arial 15 bold')).grid(row=15,column=15,padx=25,pady=25)
+Button(obj,text='DOWNLOAD',font=('arial 15 bold'),fg='white',bg='#c4302b',padx=2,command=downloader).grid(row=11,column=15,padx=25,pady=25)
+obj.mainloop()
